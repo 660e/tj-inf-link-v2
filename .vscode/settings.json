@@ -1,0 +1,13 @@
+{
+  "vetur.validation.template": false,
+  "vetur.format.enable": false,
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
+  "vetur.experimental.templateInterpolationService": true,
+  "editor.formatOnType": true,
+  "prettier.singleQuote": true,
+  "prettier.printWidth": 150,
+  "prettier.arrowParens": "avoid",
+  "prettier.quoteProps": "consistent",
+  "prettier.trailingComma": "none",
+  "prettier.disable_tab_width_auto_detection": true,
+}

@@ -1,0 +1,16 @@
+$space: 16px;
+.q-stepper ::v-deep .q-stepper__content {
+  flex: 1;
+  display: flex;
+  .q-stepper__step-inner {
+    padding: $space;
+  }
+  .q-card .row {
+    .iot-form-item {
+      padding-bottom: $space;
+    }
+    &:last-child .iot-form-item {
+      padding: 0;
+    }
+  }
+}

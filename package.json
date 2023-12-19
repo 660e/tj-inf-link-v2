@@ -1,0 +1,58 @@
+{
+  "name": "inf-link-v2",
+  "version": "2.1.250",
+  "description": "",
+  "productName": "",
+  "author": "660e",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.13.5",
+    "axios": "^0.21.1",
+    "captcha-mini": "^1.1.0",
+    "core-js": "^3.6.5",
+    "crypto-js": "^4.1.1",
+    "dayjs": "^1.10.7",
+    "echarts": "^5.3.0",
+    "leaflet": "^1.7.1",
+    "leaflet.chinatmsproviders": "^3.0.4",
+    "proj4leaflet": "^1.0.2",
+    "quasar": "^1.19.4",
+    "vue-i18n": "^8.0.0",
+    "vuelidate": "^0.7.6",
+    "xlsx": "^0.18.2"
+  },
+  "devDependencies": {
+    "@quasar/app": "^2.3.0",
+    "autoprefixer": "^9.8.8",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^7.7.0",
+    "eslint-webpack-plugin": "^2.4.0",
+    "postcss": "^7.0.39",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
+  },
+  "browserslist": [
+    "ie >= 11",
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

@@ -1,0 +1,11 @@
+$space: 16px;
+.card-section {
+  display: flex;
+  flex-wrap: wrap;
+  .iot-form-item {
+    width: calc(50% - 8px);
+    &:nth-child(2n) {
+      margin-left: $space;
+    }
+  }
+}

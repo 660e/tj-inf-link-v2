@@ -1,0 +1,31 @@
+.glassy {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(7px);
+  top: 10px;
+  z-index: 1000;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s;
+}
+.fade-enter-active {
+  margin-right: -50px;
+  opacity: 0;
+}
+.fade-enter-to {
+  margin-right: 0;
+  opacity: 1;
+}
+.fade-leave-active {
+  margin-right: 0;
+  opacity: 1;
+}
+.fade-leave-to {
+  margin-right: -50px;
+  opacity: 0;
+}
+.body--dark {
+  .glassy {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}

@@ -1,0 +1,49 @@
+.iot-form-item {
+  padding-bottom: 20px;
+  display: flex;
+  & > h6 {
+    font-size: 14px;
+    font-weight: 400;
+    height: 40px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    em {
+      color: #f00;
+      font-style: normal;
+    }
+  }
+  & > span {
+    line-height: 1;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+  }
+  & > .q-field {
+    flex: 1;
+    ::v-deep .q-field__bottom {
+      padding: 0 10px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: absolute;
+    }
+  }
+  &.iot-form-item--vertical {
+    display: block;
+    & > h6 {
+      height: auto;
+      padding: 0 0 6px 0;
+      justify-content: flex-start;
+    }
+    & > .q-btn-group {
+      height: 40px;
+    }
+  }
+}
+.q-tree {
+  margin: 10px;
+}

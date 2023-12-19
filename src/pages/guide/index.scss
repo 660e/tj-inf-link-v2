@@ -1,0 +1,97 @@
+.q-btn {
+  width: 120px;
+}
+.grid-container {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+    'a . . . . . . b'
+    'o . . . . . . p'
+    'c q d r r e s f'
+    '. . t v v u . .'
+    '. . t i j u . .'
+    '. . g i j h . .';
+  .arrow {
+    display: block;
+    background-color: #ccc;
+    position: relative;
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+    }
+    &::before {
+      border: 2px #ccc solid;
+      border-radius: 50%;
+      height: 10px;
+      width: 10px;
+    }
+    &::after {
+      border-style: solid;
+    }
+    &.horizontal {
+      width: calc(100% - 20px);
+      height: 2px;
+      &::before {
+        top: -4px;
+        left: -10px;
+      }
+      &::after {
+        border-width: 5px 0 5px 10px;
+        border-color: transparent transparent transparent #ccc;
+        top: -4px;
+        right: -10px;
+      }
+    }
+    &.vertical {
+      height: calc(100% - 20px);
+      width: 2px;
+      &::before {
+        top: -10px;
+        left: -4px;
+      }
+      &::after {
+        border-width: 10px 5px 0;
+        border-color: #ccc transparent transparent;
+        bottom: -10px;
+        left: -4px;
+      }
+    }
+  }
+  .dashed-1 {
+    border-style: dashed;
+    border-width: 10px 2px 2px;
+    border-color: transparent #ccc #ccc;
+    height: 50%;
+    width: 140%;
+    position: absolute;
+    top: 0;
+    left: -20%;
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      border-style: solid;
+      border-width: 0 5px 10px;
+      border-color: transparent transparent #ccc;
+      position: absolute;
+      top: -10px;
+    }
+    &::before {
+      left: -6px;
+    }
+    &::after {
+      right: -6px;
+    }
+  }
+  .dashed-2 {
+    height: 50%;
+    width: 50%;
+    border: #ccc dashed;
+    border-width: 0 2px;
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+  }
+}

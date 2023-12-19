@@ -1,0 +1,31 @@
+import Vue from 'vue';
+
+import IotBreadcrumbs from '@/components/iot-breadcrumbs.vue';
+import IotDialog from '@/components/iot-dialog.vue';
+import IotFormDateTime from '@/components/iot-form-date-time.vue';
+import IotFormDate from '@/components/iot-form-date.vue';
+import IotFormItem from '@/components/iot-form-item.vue';
+import IotFormTime from '@/components/iot-form-time.vue';
+import IotHeader from '@/components/iot-header.vue';
+import IotSearchbar from '@/components/iot-searchbar.vue';
+import IotTableHandle from '@/components/iot-table-handle.vue';
+import IotTableSimple from '@/components/iot-table-simple.vue';
+import IotTable from '@/components/iot-table.vue';
+import IotTitle from '@/components/iot-title.vue';
+import IotToolbar from '@/components/iot-toolbar.vue';
+import IotTree from '@/components/iot-tree.vue';
+
+Vue.component('iot-breadcrumbs', IotBreadcrumbs);
+Vue.component('iot-dialog', IotDialog);
+Vue.component('iot-form-date-time', IotFormDateTime);
+Vue.component('iot-form-date', IotFormDate);
+Vue.component('iot-form-item', IotFormItem);
+Vue.component('iot-form-time', IotFormTime);
+Vue.component('iot-header', IotHeader);
+Vue.component('iot-searchbar', IotSearchbar);
+Vue.component('iot-table-handle', IotTableHandle);
+Vue.component('iot-table-simple', IotTableSimple);
+Vue.component('iot-table', IotTable);
+Vue.component('iot-title', IotTitle);
+Vue.component('iot-toolbar', IotToolbar);
+Vue.component('iot-tree', IotTree);
