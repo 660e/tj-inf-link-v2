@@ -23,10 +23,9 @@ import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { extendApi } from '@/api/tdf-service-sys/extend.js';
 import { popconfirm } from '@/utils/framework.js';
 import CreateDialog from './dialogs/create.vue';
+
 export default {
-  components: {
-    CreateDialog
-  },
+  components: { CreateDialog },
   data() {
     return {
       breadcrumbs: [],
@@ -34,63 +33,21 @@ export default {
       filters: {},
       data: [],
       columns: [],
-      pagination: {
-        page: 1,
-        rowsPerPage: 10,
-        rowsNumber: 0
-      }
+      pagination: { page: 1, rowsPerPage: 10, rowsNumber: 0 }
     };
   },
   mounted() {
     this.breadcrumbs = [{ label: '系统管理' }, { label: '菜单管理' }];
     this.fields = [
-      {
-        label: '名称',
-        key: 'menuName',
-        type: 'input'
-      },
-      {
-        label: '类型',
-        key: 'menuDesc',
-        type: 'select',
-        options: [],
-        props: {
-          label: 'name',
-          value: 'code'
-        }
-      }
+      { label: '名称', key: 'menuName', type: 'input' },
+      { label: '类型', key: 'menuDesc', type: 'select', options: [], props: { label: 'name', value: 'code' } }
     ];
     this.columns = [
-      {
-        label: '排序号',
-        name: 'menuIndex',
-        field: 'menuIndex',
-        style: 'width: 70px'
-      },
-      {
-        label: '名称',
-        name: 'menuName',
-        field: 'menuName',
-        align: 'left'
-      },
-      {
-        label: '类型',
-        name: 'menuDesc',
-        field: 'menuDesc',
-        align: 'left'
-      },
-      {
-        label: '图标',
-        name: 'smallIconPath',
-        field: 'smallIconPath',
-        align: 'left'
-      },
-      {
-        label: '路径',
-        name: 'menuUrl',
-        field: 'menuUrl',
-        align: 'left'
-      },
+      { label: '排序号', name: 'menuIndex', field: 'menuIndex', style: 'width: 70px' },
+      { label: '名称', name: 'menuName', field: 'menuName', align: 'left' },
+      { label: '类型', name: 'menuDesc', field: 'menuDesc', align: 'left' },
+      { label: '图标', name: 'smallIconPath', field: 'smallIconPath', align: 'left' },
+      { label: '路径', name: 'menuUrl', field: 'menuUrl', align: 'left' },
       {
         label: '创建时间',
         name: 'createdDate',
@@ -107,12 +64,16 @@ export default {
         handles: [
           {
             label: '修改',
-            command: 'edit'
+            command: 'edit',
+            disable: row => row.customType === 1,
+            tooltip: '系统内置菜单'
           },
           {
             label: '删除',
             command: 'remove',
-            color: 'negative'
+            color: 'negative',
+            disable: row => row.customType === 1,
+            tooltip: '系统内置菜单'
           }
         ]
       }
@@ -122,7 +83,7 @@ export default {
       this.columns.find(e => e.name === 'menuDesc').format = val => {
         return response.find(e => e.code === val) ? response.find(e => e.code === val).name : '-';
       };
-      this.onRequest(this.pagination);
+      this.search();
     });
   },
   methods: {
