@@ -152,6 +152,14 @@ const sysApi = {
 
   checkCurrUserIsSysAdmin(userAccount) {
     return service.get('/tdf-service-sys/sys/role/query/checkCurrUserIsSysAdmin', { params: { userAccount } });
+  },
+
+  getUserMenuList() {
+    return service.get('/tdf-service-sys/sys/menu/query/getUserMenuList');
+  },
+
+  getTenantMenuList() {
+    return service.get('/tdf-service-sys/sys/menu/query/getTenantMenuList');
   }
 };
 

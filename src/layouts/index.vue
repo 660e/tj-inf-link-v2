@@ -70,12 +70,7 @@ import NotificationsPopup from './popups/notifications.vue';
 import AccountPopup from './popups/account.vue';
 
 export default {
-  components: {
-    HelpDialog,
-    UploadPopup,
-    NotificationsPopup,
-    AccountPopup
-  },
+  components: { HelpDialog, UploadPopup, NotificationsPopup, AccountPopup },
   data() {
     return {
       ui: window.$CONFIG.ui.layout,
@@ -90,8 +85,9 @@ export default {
     };
   },
   mounted() {
-    const p0 = sysApi.getMenuTree();
+    const p0 = sysApi.getUserMenuList();
     const p1 = systemApi.userDetails();
+
     Promise.all([p0, p1]).then(response => {
       this.account = {
         name: response[1].userName,
