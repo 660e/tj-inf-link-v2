@@ -22,14 +22,17 @@ export function login({ username, password }) {
       userPwd: encrypt(password)
     }
   });
+}
 
-  // const params = window.$CONFIG.params.oauth;
-  // const query = Object.keys(params).map(k => `${k}=${params[k]}`);
-  // query.push(`username=${encodeURIComponent(window.$CONFIG.aes ? encrypt(username) : username)}`);
-  // query.push(`password=${encodeURIComponent(window.$CONFIG.aes ? encrypt(password) : password)}`);
-  // const response = await axios.post(`${window.$CONFIG.url.oauth}?${query.join('&')}`);
-  // SessionStorage.set('token', response.data.access_token);
-  // router.push({ name: 'guide' });
+export function getToken({ username, password, tenant }) {
+  const params = window.$CONFIG.params.oauth;
+  params.tenant = tenant;
+
+  const query = Object.keys(params).map(k => `${k}=${params[k]}`);
+  query.push(`username=${encodeURIComponent(window.$CONFIG.aes ? encrypt(username) : username)}`);
+  query.push(`password=${encodeURIComponent(window.$CONFIG.aes ? encrypt(password) : password)}`);
+
+  return axios.post(`${window.$CONFIG.url.oauth}?${query.join('&')}`);
 }
 
 export function logout() {

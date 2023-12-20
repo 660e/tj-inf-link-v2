@@ -28,14 +28,37 @@
       </div>
       <div class="py-10 text-center text-gray-400">{{ ui.copyright }}</div>
     </div>
+
+    <!-- 租户选择 -->
+    <q-dialog v-model="dialog" persistent>
+      <div class="bg-white p-4 space-y-4">
+        <div class="text-base">租户选择</div>
+        <q-select
+          v-model="forms.tenant"
+          :options="tenants"
+          option-label="tenantName"
+          option-value="id"
+          class="w-96"
+          dense
+          emit-value
+          map-options
+          outlined
+        />
+        <div class="space-x-2 flex justify-end">
+          <q-btn @click="confirm" label="确定" color="primary" :loading="loading" />
+          <q-btn @click="cancel" label="取消" />
+        </div>
+      </div>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import Captcha from 'captcha-mini';
 import { licensesApi } from '@/api/wsat-service-device/licenses.js';
-import { login } from '@/utils/login.js';
+import { login, getToken } from '@/utils/login.js';
 import { getUrlParams } from '@/utils/data.js';
+import { SessionStorage } from 'quasar';
 
 export default {
   data() {
@@ -43,14 +66,17 @@ export default {
       loading: false,
       ui: window.$CONFIG.ui.login,
       forms: {
-        username: '',
-        password: '',
-        captcha: ''
+        username: 'admin',
+        password: 'Wlkjsyb@202210',
+        captcha: '',
+        tenant: ''
       },
       captcha: {
         instance: null,
         text: ''
-      }
+      },
+      tenants: [],
+      dialog: false
     };
   },
   mounted() {
@@ -78,14 +104,24 @@ export default {
         this.forms.captcha = '';
       } else {
         this.loading = true;
-        // login(this.forms).catch(error => {
-        //   this.$q.notify({ type: 'negative', message: error.response.data.error_description });
-        //   this.captcha.instance.drawAgain();
-        //
-        // });
         login(this.forms)
           .then(response => {
-            console.log(response.data.data);
+            if (response.data.code === 200) {
+              this.tenants = response.data.data;
+              if (this.tenants.length === 1) {
+                this.forms.tenant = this.tenants[0].id;
+                this.confirm();
+              } else if (this.tenants.length > 1) {
+                this.forms.tenant = this.tenants[0].id;
+                this.dialog = true;
+              } else {
+                this.$q.notify({ type: 'warning', message: '未获取到租户信息' });
+              }
+            } else {
+              this.$q.notify({ type: 'negative', message: response.data.message });
+              this.captcha.instance.drawAgain();
+              this.forms.captcha = '';
+            }
           })
           .finally(() => {
             this.loading = false;
@@ -99,6 +135,22 @@ export default {
     initCaptcha() {
       this.captcha.instance = new Captcha({ fontSize: 77 });
       this.captcha.instance.draw(document.querySelector('#captcha'), c => (this.captcha.text = c));
+    },
+    confirm() {
+      getToken(this.forms)
+        .then(response => {
+          SessionStorage.set('token', response.data.access_token);
+          this.$router.push({ name: 'guide' });
+        })
+        .finally(() => {
+          this.cancel();
+        });
+    },
+    cancel() {
+      this.loading = false;
+      this.dialog = false;
+      this.captcha.instance.drawAgain();
+      this.forms.captcha = '';
     }
   }
 };
