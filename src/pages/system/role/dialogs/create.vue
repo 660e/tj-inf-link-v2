@@ -21,6 +21,7 @@
 import { between, required } from 'vuelidate/lib/validators';
 import { extend } from 'quasar';
 import { sysApi } from '@/api/tdf-service-sys/sys.js';
+
 export default {
   data() {
     return {
@@ -60,7 +61,7 @@ export default {
         this.$store.commit('loading', true);
         sysApi[this.isCreate ? 'createRole' : 'editRole'](this.forms).then(response => {
           if (response) {
-            this.$q.notify({ type: 'positive', message: `${this.isCreate ? '新增' : '修改'}成功` });
+            this.$q.notify({ type: 'positive', message: `${this.isCreate ? '新增' : '修改'}成功，请关联菜单、用户、资源空间` });
             this.$emit('confirm');
             this.cancel();
           }

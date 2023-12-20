@@ -94,7 +94,7 @@ module.exports = function (/* ctx */) {
       config: {
         notify: {
           position: 'top',
-          timeout: 1000
+          timeout: 3000
         }
       },
 
