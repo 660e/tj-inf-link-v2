@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import router from '@/router';
 
-function encrypt(source) {
+export function encrypt(source) {
   const words = CryptoJS.enc.Utf8.parse(source);
   const key = CryptoJS.enc.Utf8.parse('Wlkj@5U4#$bXzICg');
   const iv = CryptoJS.enc.Utf8.parse('1234567890123456');
@@ -16,14 +16,20 @@ function encrypt(source) {
 }
 
 export function login({ username, password }) {
-  const params = window.$CONFIG.params.oauth;
-  const query = Object.keys(params).map(k => `${k}=${params[k]}`);
-  query.push(`username=${encodeURIComponent(window.$CONFIG.aes ? encrypt(username) : username)}`);
-  query.push(`password=${encodeURIComponent(window.$CONFIG.aes ? encrypt(password) : password)}`);
-  return axios.post(`${window.$CONFIG.url.oauth}?${query.join('&')}`).then(response => {
-    SessionStorage.set('token', response.data.access_token);
-    router.push({ name: 'guide' });
+  return axios.get('/sys2/extend/tenant/check/getTenantsByUser', {
+    params: {
+      loginName: encrypt(username),
+      userPwd: encrypt(password)
+    }
   });
+
+  // const params = window.$CONFIG.params.oauth;
+  // const query = Object.keys(params).map(k => `${k}=${params[k]}`);
+  // query.push(`username=${encodeURIComponent(window.$CONFIG.aes ? encrypt(username) : username)}`);
+  // query.push(`password=${encodeURIComponent(window.$CONFIG.aes ? encrypt(password) : password)}`);
+  // const response = await axios.post(`${window.$CONFIG.url.oauth}?${query.join('&')}`);
+  // SessionStorage.set('token', response.data.access_token);
+  // router.push({ name: 'guide' });
 }
 
 export function logout() {

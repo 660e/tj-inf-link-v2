@@ -74,16 +74,16 @@ module.exports = function (/* ctx */) {
       open: true, // opens browser window automatically
       proxy: {
         '/api': {
-          target: 'http://139.9.143.248:28080',
-          changeOrigin: true
+          target: 'http://139.9.143.248:28080'
         },
         '/sso': {
-          target: 'http://139.9.143.248:28080',
-          changeOrigin: true
+          target: 'http://139.9.143.248:28080'
         },
         '/sys': {
-          target: 'http://139.9.143.248:28080',
-          changeOrigin: true
+          target: 'http://139.9.143.248:28080'
+        },
+        '/sys2': {
+          target: 'http://139.9.143.248:28080'
         }
       }
     },

@@ -72,18 +72,24 @@ export default {
   },
   methods: {
     login() {
-      this.loading = true;
       if (this.ui.captcha && this.forms.captcha.toLowerCase() !== this.captcha.text.toLowerCase()) {
         this.$q.notify({ type: 'negative', message: '验证码错误' });
         this.captcha.instance.drawAgain();
         this.forms.captcha = '';
-        this.loading = false;
       } else {
-        login(this.forms).catch(error => {
-          this.$q.notify({ type: 'negative', message: error.response.data.error_description });
-          this.captcha.instance.drawAgain();
-          this.loading = false;
-        });
+        this.loading = true;
+        // login(this.forms).catch(error => {
+        //   this.$q.notify({ type: 'negative', message: error.response.data.error_description });
+        //   this.captcha.instance.drawAgain();
+        //
+        // });
+        login(this.forms)
+          .then(response => {
+            console.log(response.data.data);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
     },
     ssologin() {
