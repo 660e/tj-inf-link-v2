@@ -12,7 +12,9 @@
         <span :class="{ 'text-grey-6': isFunction(h.disable) ? h.disable(props.row) : h.disable }">
           {{ isFunction(h.label) ? h.label(props.row) : h.label }}
         </span>
-        <q-tooltip v-if="isFunction(h.disable) ? h.disable(props.row) : h.disable">{{ h.tooltip }}</q-tooltip>
+        <q-tooltip v-if="isFunction(h.disable) ? h.disable(props.row) : h.disable">
+          {{ isFunction(h.tooltip) ? h.tooltip(props.row) : h.tooltip }}
+        </q-tooltip>
       </div>
       <div v-if="isArray(h)" :key="i" class="cursor-pointer">
         <span class="text-primary">更多</span>

@@ -45,8 +45,8 @@
           outlined
         />
         <div class="space-x-2 flex justify-end">
-          <q-btn @click="confirm" label="确定" color="primary" :loading="loading" />
-          <q-btn @click="cancel" label="取消" />
+          <q-btn :loading="loading" @click="confirm" label="确定" color="primary" />
+          <q-btn :disable="loading" @click="cancel" label="取消" />
         </div>
       </div>
     </q-dialog>
@@ -137,6 +137,7 @@ export default {
       this.captcha.instance.draw(document.querySelector('#captcha'), c => (this.captcha.text = c));
     },
     confirm() {
+      this.loading = true;
       getToken(this.forms)
         .then(response => {
           SessionStorage.set('token', response.data.access_token);

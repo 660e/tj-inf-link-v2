@@ -93,6 +93,7 @@ export default {
         name: response[1].userName,
         gender: Number(response[1].gender),
         login: {
+          name: response[1].loginName,
           uuid: response[1].id,
           role: response[1].roleId
         }

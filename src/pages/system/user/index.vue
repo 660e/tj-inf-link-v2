@@ -42,17 +42,14 @@ import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { extendApi } from '@/api/tdf-service-sys/extend.js';
 import { popconfirm } from '@/utils/framework.js';
 import { flattenTree } from '@/utils/data.js';
+import { SessionStorage } from 'quasar';
 
 import CreateDialog from './dialogs/create.vue';
 import ImportDialog from './dialogs/import.vue';
 import ConfigDialog from './dialogs/config.vue';
 
 export default {
-  components: {
-    CreateDialog,
-    ImportDialog,
-    ConfigDialog
-  },
+  components: { CreateDialog, ImportDialog, ConfigDialog },
   data() {
     return {
       nodes: [{ id: -1, deptName: 'ROOT', children: [] }],
@@ -104,7 +101,17 @@ export default {
         handles: [
           { label: '修改', command: 'edit' },
           { label: '维护', command: 'config' },
-          { label: '删除', command: 'remove', color: 'negative' }
+          {
+            label: '删除',
+            command: 'remove',
+            color: 'negative',
+            disable: row => {
+              return row.loginName === 'sys_admin' || row.loginName === SessionStorage.getItem('account').login.name;
+            },
+            tooltip: row => {
+              return row.loginName === 'sys_admin' ? '默认账户' : '当前账户';
+            }
+          }
         ]
       }
     ];
