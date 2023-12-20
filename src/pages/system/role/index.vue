@@ -34,14 +34,9 @@ import UserDialog from './dialogs/user.vue';
 import MenuDialog from './dialogs/menu.vue';
 import DeviceDialog from './dialogs/device.vue';
 import PropertyDialog from './dialogs/property.vue';
+
 export default {
-  components: {
-    CreateDialog,
-    UserDialog,
-    MenuDialog,
-    DeviceDialog,
-    PropertyDialog
-  },
+  components: { CreateDialog, UserDialog, MenuDialog, DeviceDialog, PropertyDialog },
   data() {
     return {
       breadcrumbs: [],
@@ -49,43 +44,16 @@ export default {
       filters: {},
       data: [],
       columns: [],
-      pagination: {
-        page: 1,
-        rowsPerPage: 10,
-        rowsNumber: 0
-      }
+      pagination: { page: 1, rowsPerPage: 10, rowsNumber: 0 }
     };
   },
   mounted() {
     this.breadcrumbs = [{ label: '系统管理' }, { label: '权限管理' }];
-    this.fields = [
-      {
-        label: '名称',
-        key: 'roleName',
-        type: 'input'
-      }
-    ];
+    this.fields = [{ label: '名称', key: 'roleName', type: 'input' }];
     this.columns = [
-      {
-        label: '排序号',
-        name: 'roleIndex',
-        field: 'roleIndex',
-        style: 'width: 70px'
-      },
-      {
-        label: '名称',
-        name: 'roleName',
-        field: 'roleName',
-        align: 'left'
-      },
-      {
-        label: '备注',
-        name: 'remark',
-        field: 'remark',
-        align: 'left',
-        style: 'width: 300px',
-        classes: 'ellipsis'
-      },
+      { label: '排序号', name: 'roleIndex', field: 'roleIndex', style: 'width: 70px' },
+      { label: '名称', name: 'roleName', field: 'roleName', align: 'left' },
+      { label: '备注', name: 'remark', field: 'remark', align: 'left', style: 'width: 300px', classes: 'ellipsis' },
       {
         label: '创建时间',
         name: 'createdDate',
@@ -102,35 +70,27 @@ export default {
         handles: [
           {
             label: '修改',
-            command: 'edit'
+            command: 'edit',
+            disable: row => row.customType === 1,
+            tooltip: '默认角色'
           },
           {
             label: '删除',
             command: 'remove',
-            color: 'negative'
+            color: 'negative',
+            disable: row => row.customType === 1,
+            tooltip: '默认角色'
           },
           [
-            {
-              label: '用户权限',
-              command: 'user'
-            },
-            {
-              label: '菜单权限',
-              command: 'menu'
-            },
-            {
-              label: '设备权限',
-              command: 'device'
-            },
-            {
-              label: '属性权限',
-              command: 'property'
-            }
+            { label: '用户权限', command: 'user' },
+            { label: '菜单权限', command: 'menu' },
+            { label: '设备权限', command: 'device' },
+            { label: '属性权限', command: 'property' }
           ]
         ]
       }
     ];
-    this.onRequest(this.pagination);
+    this.search();
   },
   methods: {
     onRequest(pagination) {

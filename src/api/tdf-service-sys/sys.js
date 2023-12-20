@@ -148,6 +148,10 @@ const sysApi = {
 
   addRoleProductPropertyId(roleId, params) {
     return service.post(`/tdf-service-sys/sys/role-productproperty/addRoleProductPropertyId?roleId=${roleId}`, params);
+  },
+
+  checkCurrUserIsSysAdmin(userAccount) {
+    return service.get('/tdf-service-sys/sys/role/query/checkCurrUserIsSysAdmin', { params: { userAccount } });
   }
 };
 
