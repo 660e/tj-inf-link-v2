@@ -166,7 +166,7 @@ const sysApi = {
     return service.get('/tdf-service-sys/sys/tenant/query/tenantlist');
   },
 
-  alldata(params) {
+  queryTenantAlldata(params) {
     return service.post('/tdf-service-sys/sys/tenant/query/alldata', params);
   },
 
@@ -180,6 +180,14 @@ const sysApi = {
 
   editTenant(params) {
     return service.put('/tdf-service-sys/sys/tenant/', params);
+  },
+
+  rolelist() {
+    return service.get('/tdf-service-sys/sys/role/query/rolelist');
+  },
+
+  queryRoleAlldata(params) {
+    return service.post('/tdf-service-sys/sys/role/query/alldata', params);
   }
 };
 

@@ -84,8 +84,6 @@ export default {
           [
             { label: '用户权限', command: 'user' },
             { label: '菜单权限', command: 'menu' }
-            // { label: '设备权限', command: 'device' },
-            // { label: '属性权限', command: 'property' }
           ]
         ]
       }
@@ -101,7 +99,7 @@ export default {
         sorts: [{ fieldName: 'roleIndex', direction: 'asc' }],
         filters: this.filters
       };
-      sysApi.getRole(params).then(response => {
+      sysApi.queryRoleAlldata(params).then(response => {
         this.pagination.page = response.page;
         this.pagination.rowsPerPage = response.pageSize;
         this.pagination.rowsNumber = response.total;
