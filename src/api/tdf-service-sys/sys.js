@@ -160,6 +160,26 @@ const sysApi = {
 
   getTenantMenuList() {
     return service.get('/tdf-service-sys/sys/menu/query/getTenantMenuList');
+  },
+
+  tenantlist() {
+    return service.get('/tdf-service-sys/sys/tenant/query/tenantlist');
+  },
+
+  alldata(params) {
+    return service.post('/tdf-service-sys/sys/tenant/query/alldata', params);
+  },
+
+  createTenant(params) {
+    return service.post('/tdf-service-sys/sys/tenant/', params);
+  },
+
+  removeTenant(id) {
+    return service.delete(`/tdf-service-sys/sys/tenant/${id}`);
+  },
+
+  editTenant(params) {
+    return service.put('/tdf-service-sys/sys/tenant/', params);
   }
 };
 

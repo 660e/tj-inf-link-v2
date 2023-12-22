@@ -38,6 +38,11 @@ export default {
       component: () => import('@/pages/system/message')
     },
     {
+      path: 'resource',
+      name: 'system-resource',
+      component: () => import('@/pages/system/resource')
+    },
+    {
       path: 'role',
       name: 'system-role',
       component: () => import('@/pages/system/role')
@@ -46,6 +51,11 @@ export default {
       path: 'status',
       name: 'system-status',
       component: () => import('@/pages/system/status')
+    },
+    {
+      path: 'tenant',
+      name: 'system-tenant',
+      component: () => import('@/pages/system/tenant')
     },
     {
       path: 'user',
