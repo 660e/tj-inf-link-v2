@@ -31,7 +31,7 @@ const sysApi = {
   },
 
   createMenu(params) {
-    return service.post('/tdf-service-sys/sys/menu/', params);
+    return service.post('/tdf-service-sys/sys/menu', params);
   },
 
   removeMenu(id) {
@@ -39,7 +39,7 @@ const sysApi = {
   },
 
   editMenu(params) {
-    return service.put('/tdf-service-sys/sys/menu/', params);
+    return service.put('/tdf-service-sys/sys/menu', params);
   },
 
   getMenu(params) {

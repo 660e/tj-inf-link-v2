@@ -28,10 +28,11 @@
 
 <script>
 import { between, required, requiredIf } from 'vuelidate/lib/validators';
-import { flattenTree, buildTree } from '@/utils/data.js';
+import { buildTree } from '@/utils/data.js';
 import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { extendApi } from '@/api/tdf-service-sys/extend.js';
 import { extend } from 'quasar';
+
 export default {
   data() {
     return {
@@ -76,14 +77,14 @@ export default {
       if (!this.isCreate) {
         this.forms = extend(true, {}, row);
       }
-      const p0 = sysApi.getMenuTree();
+      const p0 = sysApi.getTenantMenuList();
       const p1 = extendApi.getDateItemByParentcode({ code: 'menuDesc' });
       Promise.all([p0, p1]).then(response => {
-        const temp = flattenTree(response[0].router).map(e => {
+        const temp = response[0].map(e => {
           return {
             id: e.id,
             pid: e.parentId,
-            name: e.meta.title
+            name: e.menuName
           };
         });
         this.parentIdNodes = buildTree(temp);
