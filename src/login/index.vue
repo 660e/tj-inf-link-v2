@@ -66,8 +66,8 @@ export default {
       loading: false,
       ui: window.$CONFIG.ui.login,
       forms: {
-        username: 'sys_admin',
-        password: 'Wlkjsyb@202210',
+        username: '',
+        password: '',
         captcha: '',
         tenant: ''
       },

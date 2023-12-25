@@ -7,9 +7,9 @@
           <q-card-section class="card-section">
             <iot-form-item
               label="归属资源空间"
-              :value.sync="forms.resSapceId"
-              :validator="$v.forms.resSapceId"
-              :options="resSapceIdOptions"
+              :value.sync="forms.resSpaceId"
+              :validator="$v.forms.resSpaceId"
+              :options="resSpaceIdOptions"
               option-label="resSpaceName"
               option-value="id"
               type="select"

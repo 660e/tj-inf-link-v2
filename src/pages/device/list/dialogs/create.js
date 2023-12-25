@@ -44,7 +44,7 @@ export default {
         pid: ''
       },
       forms: {
-        resSapceId: '',
+        resSpaceId: '',
         // 基本信息
         name: '',
         deviceSn: '',
@@ -96,7 +96,7 @@ export default {
         // 设备分组与自定义信息
         kvList: []
       },
-      resSapceIdOptions: [],
+      resSpaceIdOptions: [],
       productIdOptions: [],
       pidOptions: [],
       switchNumberOptions: [],
@@ -114,7 +114,7 @@ export default {
   },
   validations: {
     forms: {
-      resSapceId: { required },
+      resSpaceId: { required },
       name: { required },
       deviceSn: { required },
       productId: { required },
@@ -152,7 +152,7 @@ export default {
         this.securityPolicyOptions = response[2].securityPolicy;
         this.securityModeOptions = response[2].securityMode;
         this.deviceBrandOptions = response[2].deviceBrand;
-        this.resSapceIdOptions = response[5];
+        this.resSpaceIdOptions = response[5];
 
         if (!pid && (productId === 0 || !!productId)) {
           const product = this.productIdOptions.find(p => p.id === productId);

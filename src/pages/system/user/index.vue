@@ -100,13 +100,16 @@ export default {
         style: 'width: 10px',
         handles: [
           { label: '修改', command: 'edit' },
-          { label: '维护', command: 'config' },
+          {
+            label: '维护',
+            command: 'config'
+          },
           {
             label: '删除',
             command: 'remove',
             color: 'negative',
             show: row => {
-              return row.loginName !== 'sys_admin' && row.loginName !== SessionStorage.getItem('account').login.name;
+              return row.loginName !== SessionStorage.getItem('account').login.name;
             }
           }
         ]
@@ -173,7 +176,13 @@ export default {
           this.$refs.importDialog.open();
           break;
         case 'config':
-          this.$refs.configDialog.open(row);
+          sysApi.checkCurrUserIsSysAdmin(row.loginName).then(response => {
+            if (response) {
+              this.$q.notify({ type: 'warning', message: '系统账户不可维护' });
+            } else {
+              this.$refs.configDialog.open(row);
+            }
+          });
           break;
         case 'remove':
           popconfirm({

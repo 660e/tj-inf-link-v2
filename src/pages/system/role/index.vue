@@ -68,23 +68,10 @@ export default {
         align: 'left',
         style: 'width: 10px',
         handles: [
-          {
-            label: '修改',
-            command: 'edit',
-            disable: row => row.customType === 1,
-            tooltip: '默认角色'
-          },
-          {
-            label: '删除',
-            command: 'remove',
-            color: 'negative',
-            disable: row => row.customType === 1,
-            tooltip: '默认角色'
-          },
-          [
-            { label: '用户权限', command: 'user' },
-            { label: '菜单权限', command: 'menu' }
-          ]
+          { label: '修改', command: 'edit', show: row => row.customType !== 1 },
+          { label: '删除', command: 'remove', color: 'negative', show: row => row.customType !== 1 },
+          { label: '用户权限', command: 'user', show: row => row.customType !== 1 },
+          { label: '菜单权限', command: 'menu', show: row => row.customType !== 1 }
         ]
       }
     ];

@@ -73,7 +73,7 @@
         :options="resourceOptions"
         :clearable="false"
         :hint="`为“${loginName}”关联资源空间`"
-        @input="resSapceIdInput"
+        @input="resSpaceIdInput"
         label="资源空间"
         option-label="resSpaceName"
         option-value="id"
@@ -84,7 +84,7 @@
       <iot-table-simple v-if="resourceData.length" :data="resourceData" :columns="resourceColumns">
         <template v-slot:handle="{ props }">
           <q-icon
-            @click="remove('resSapceId', 'deleteResspaceFromUser', props.row)"
+            @click="remove('resSpaceId', 'deleteResspaceFromUser', props.row)"
             class="cursor-pointer text-negative"
             name="delete_outline"
             size="xs"
@@ -185,9 +185,9 @@ export default {
         sysApi.addTenantForUser({ tenantId: val, userId: this.id }).then(response => response && this.onRequest());
       }
     },
-    resSapceIdInput(val) {
+    resSpaceIdInput(val) {
       if (val) {
-        sysApi.addResspaceForUser({ resSapceId: val, userId: this.id }).then(response => response && this.onRequest());
+        sysApi.addResspaceForUser({ resSpaceId: val, userId: this.id }).then(response => response && this.onRequest());
       }
     },
     remove(id, fn, row) {
