@@ -2,6 +2,7 @@
   <iot-dialog :visible="visible" :width="500" title="维护" :buttons="[{ label: '关闭', command: 'cancel' }]" @handle="handle">
     <q-form>
       <iot-form-item
+        v-model="dept"
         :nodes="deptNodes"
         :clearable="false"
         :hint="`将“${loginName}”添加到机构`"
@@ -21,6 +22,7 @@
       <q-separator class="q-my-md" />
 
       <iot-form-item
+        v-model="role"
         :options="roleOptions"
         :clearable="false"
         :hint="`为“${loginName}”分配权限`"
@@ -41,6 +43,7 @@
       <q-separator class="q-my-md" />
 
       <iot-form-item
+        v-model="tenant"
         :options="tenantOptions"
         :clearable="false"
         :hint="`为“${loginName}”关联租户`"
@@ -66,6 +69,7 @@
       <q-separator class="q-my-md" />
 
       <iot-form-item
+        v-model="resource"
         :options="resourceOptions"
         :clearable="false"
         :hint="`为“${loginName}”关联资源空间`"
@@ -102,24 +106,32 @@ export default {
       visible: false,
       id: '',
       loginName: '-',
+
+      dept: '',
       deptNodes: [],
       deptData: [],
       deptColumns: [
         { label: '机构名称', name: 'deptName', field: 'deptName', align: 'left' },
         { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
       ],
+
+      role: '',
       roleOptions: [],
       roleData: [],
       roleColumns: [
         { label: '账号', name: 'roleName', field: 'roleName', align: 'left' },
         { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
       ],
+
+      tenant: '',
       tenantOptions: [],
       tenantData: [],
       tenantColumns: [
         { label: '租户名称', name: 'tenantName', field: 'tenantName', align: 'left' },
         { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
       ],
+
+      resource: '',
       resourceOptions: [],
       resourceData: [],
       resourceColumns: [
@@ -159,16 +171,24 @@ export default {
       }
     },
     deptIdInput(val) {
-      sysApi.addDeptForUser({ deptId: val, userId: this.id }).then(response => response && this.onRequest());
+      if (val) {
+        sysApi.addDeptForUser({ deptId: val, userId: this.id }).then(response => response && this.onRequest());
+      }
     },
     roleIdInput(val) {
-      sysApi.addRoleForUser({ roleId: val, userId: this.id }).then(response => response && this.onRequest());
+      if (val) {
+        sysApi.addRoleForUser({ roleId: val, userId: this.id }).then(response => response && this.onRequest());
+      }
     },
     tenantIdInput(val) {
-      sysApi.addTenantForUser({ tenantId: val, userId: this.id }).then(response => response && this.onRequest());
+      if (val) {
+        sysApi.addTenantForUser({ tenantId: val, userId: this.id }).then(response => response && this.onRequest());
+      }
     },
     resSapceIdInput(val) {
-      sysApi.addResspaceForUser({ resSapceId: val, userId: this.id }).then(response => response && this.onRequest());
+      if (val) {
+        sysApi.addResspaceForUser({ resSapceId: val, userId: this.id }).then(response => response && this.onRequest());
+      }
     },
     remove(id, fn, row) {
       popconfirm({
@@ -202,6 +222,11 @@ export default {
         this.roleData = response[1];
         this.tenantData = response[2];
         this.resourceData = response[3];
+
+        this.dept = '';
+        this.role = '';
+        this.tenant = '';
+        this.resource = '';
 
         this.$store.commit('loading', false);
       });
