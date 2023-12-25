@@ -19,6 +19,8 @@
     </div>
     <!-- 新增、修改 -->
     <create-dialog ref="createDialog" @confirm="refresh" />
+    <!-- 用户权限 -->
+    <user-dialog ref="userDialog" />
   </div>
 </template>
 
@@ -27,9 +29,10 @@ import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { popconfirm } from '@/utils/framework.js';
 import { SessionStorage } from 'quasar';
 import CreateDialog from './dialogs/create.vue';
+import UserDialog from './dialogs/user.vue';
 
 export default {
-  components: { CreateDialog },
+  components: { CreateDialog, UserDialog },
   data() {
     return {
       isSysAdmin: false,
@@ -78,7 +81,8 @@ export default {
             command: 'remove',
             color: 'negative',
             show: () => this.isSysAdmin
-          }
+          },
+          [{ label: '用户权限', command: 'user' }]
         ]
       }
     ];
@@ -137,6 +141,9 @@ export default {
               }
             });
           });
+          break;
+        case 'user':
+          this.$refs.userDialog.open(row);
           break;
       }
     }

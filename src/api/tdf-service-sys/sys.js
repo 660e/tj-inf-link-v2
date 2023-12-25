@@ -216,6 +216,30 @@ const sysApi = {
 
   editResspace(params) {
     return service.put('/tdf-service-sys/sys/resspace/', params);
+  },
+
+  findUsersByTenantId(tenantId) {
+    return service.get(`/tdf-service-sys/sys/tenant-user/findUsersByTenantId?tenantId=${tenantId}`);
+  },
+
+  addTenantForUser(params) {
+    return service.post('/tdf-service-sys/tenant-user', params);
+  },
+
+  deleteTenantFromUser(params) {
+    return service.delete('/tdf-service-sys/tenant-user', params);
+  },
+
+  findUsersByResSpaceId(resSpaceId) {
+    return service.get(`/tdf-service-sys/sys/resspace-user/findUsersByResSpaceId?resSpaceId=${resSpaceId}`);
+  },
+
+  addResspaceForUser(params) {
+    return service.post('/tdf-service-sys/sys/resspace-user', params);
+  },
+
+  deleteResspaceFromUser(params) {
+    return service.delete('/tdf-service-sys/sys/resspace-user', params);
   }
 };
 

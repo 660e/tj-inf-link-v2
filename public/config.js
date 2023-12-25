@@ -24,7 +24,7 @@ var $CONFIG = {
         content: '',
         style: {}
       },
-      captcha: true,
+      captcha: false,
       copyright: '太极计算机股份有限公司 © 版权所有 服务热线 010-57702888',
       sso: false,
       sso_role: '14962bdc26b54ee0a88923d29c9612e2'
