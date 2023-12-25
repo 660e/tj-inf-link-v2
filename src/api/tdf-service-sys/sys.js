@@ -196,6 +196,26 @@ const sysApi = {
 
   queryMenuAlldata(params) {
     return service.post('/tdf-service-sys/sys/menu/query/alldata', params);
+  },
+
+  resSpacelist() {
+    return service.get('/tdf-service-sys/sys/resspace/query/resSpacelist');
+  },
+
+  queryResspaceAlldata(params) {
+    return service.post('/tdf-service-sys/sys/resspace/query/alldata', params);
+  },
+
+  createResspace(params) {
+    return service.post('/tdf-service-sys/sys/resspace/', params);
+  },
+
+  removeResspace(id) {
+    return service.delete(`/tdf-service-sys/sys/resspace/${id}`);
+  },
+
+  editResspace(params) {
+    return service.put('/tdf-service-sys/sys/resspace/', params);
   }
 };
 
