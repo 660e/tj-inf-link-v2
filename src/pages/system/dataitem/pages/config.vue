@@ -127,7 +127,7 @@ export default {
           parentId: this.parentId
         }
       };
-      sysApi.getDataitem(params).then(response => {
+      sysApi.queryDataitemAlldata(params).then(response => {
         this.pagination.page = response.page;
         this.pagination.rowsPerPage = response.pageSize;
         this.pagination.rowsNumber = response.total;
