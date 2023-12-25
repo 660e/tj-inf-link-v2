@@ -192,6 +192,10 @@ const sysApi = {
 
   queryDataitemAlldata(params) {
     return service.post('/tdf-service-sys/sys/dataitem/query/alldata', params);
+  },
+
+  queryMenuAlldata(params) {
+    return service.post('/tdf-service-sys/sys/menu/query/alldata', params);
   }
 };
 

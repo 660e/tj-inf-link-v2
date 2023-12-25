@@ -95,7 +95,7 @@ export default {
         sorts: [{ fieldName: 'menuIndex', direction: 'asc' }],
         filters: this.filters
       };
-      sysApi.getMenu(params).then(response => {
+      sysApi.queryMenuAlldata(params).then(response => {
         this.pagination.page = response.page;
         this.pagination.rowsPerPage = response.pageSize;
         this.pagination.rowsNumber = response.total;
