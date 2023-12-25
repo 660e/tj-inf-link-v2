@@ -23,6 +23,7 @@ import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { extendApi } from '@/api/tdf-service-sys/extend.js';
 import { popconfirm } from '@/utils/framework.js';
 import CreateDialog from './dialogs/create.vue';
+
 export default {
   name: 'system-dataitem',
   components: {
@@ -45,44 +46,14 @@ export default {
   mounted() {
     this.breadcrumbs = [{ label: '系统管理' }, { label: '数据字典' }];
     this.fields = [
-      {
-        label: '名称',
-        key: 'name',
-        type: 'input'
-      },
-      {
-        label: '规则码',
-        key: 'code',
-        type: 'input'
-      }
+      { label: '名称', key: 'name', type: 'input' },
+      { label: '规则码', key: 'code', type: 'input' }
     ];
     this.columns = [
-      {
-        label: '排序号',
-        name: 'codeIndex',
-        field: 'codeIndex',
-        style: 'width: 70px'
-      },
-      {
-        label: '名称',
-        name: 'name',
-        field: 'name',
-        align: 'left'
-      },
-      {
-        label: '规则码',
-        name: 'code',
-        field: 'code',
-        align: 'left'
-      },
-      {
-        label: '备注',
-        name: 'remark',
-        field: 'remark',
-        align: 'left',
-        style: 'width: 600px',
-        classes: 'ellipsis'
-      },
+      { label: '排序号', name: 'codeIndex', field: 'codeIndex', style: 'width: 70px' },
+      { label: '名称', name: 'name', field: 'name', align: 'left' },
+      { label: '规则码', name: 'code', field: 'code', align: 'left' },
+      { label: '备注', name: 'remark', field: 'remark', align: 'left', style: 'width: 600px', classes: 'ellipsis' },
       {
         label: '状态',
         name: 'state',
@@ -111,19 +82,9 @@ export default {
         align: 'left',
         style: 'width: 10px',
         handles: [
-          {
-            label: '修改',
-            command: 'edit'
-          },
-          {
-            label: '维护',
-            command: 'config'
-          },
-          {
-            label: '删除',
-            command: 'remove',
-            color: 'negative'
-          }
+          { label: '修改', command: 'edit' },
+          { label: '维护', command: 'config' },
+          { label: '删除', command: 'remove', color: 'negative' }
         ]
       }
     ];
@@ -131,7 +92,7 @@ export default {
       this.columns.find(e => e.name === 'state').format = val => {
         return response.find(e => e.code === val) ? response.find(e => e.code === val).name : '-';
       };
-      this.onRequest(this.pagination);
+      this.search();
     });
   },
   methods: {
@@ -146,7 +107,7 @@ export default {
           ...this.filters
         }
       };
-      sysApi.getDataitem(params).then(response => {
+      sysApi.queryDataitemAlldata(params).then(response => {
         this.pagination.page = response.page;
         this.pagination.rowsPerPage = response.pageSize;
         this.pagination.rowsNumber = response.total;

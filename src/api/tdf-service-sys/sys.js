@@ -188,6 +188,10 @@ const sysApi = {
 
   queryRoleAlldata(params) {
     return service.post('/tdf-service-sys/sys/role/query/alldata', params);
+  },
+
+  queryDataitemAlldata(params) {
+    return service.post('/tdf-service-sys/sys/dataitem/query/alldata', params);
   }
 };
 
