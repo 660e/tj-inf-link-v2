@@ -127,7 +127,7 @@ export default {
               color: 'negative'
             }
           }).onOk(() => {
-            sysApi.removeMenu(row.id).then(response => {
+            sysApi.removeTenant(row.id).then(response => {
               if (response) {
                 this.$q.notify({ type: 'positive', message: '删除成功' });
                 this.refresh();

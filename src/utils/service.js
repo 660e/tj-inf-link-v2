@@ -2,7 +2,7 @@ import axios from 'axios';
 import router from '@/router';
 import store from '@/store';
 import { Notify, SessionStorage } from 'quasar';
-import { isBlob, isObject } from './data.js';
+import { isBlob, isObject, isBoolean } from './data.js';
 
 const service = axios.create({
   timeout: 10000
@@ -25,7 +25,7 @@ service.interceptors.response.use(
       if (response.data.code) {
         switch (response.data.code) {
           case 200:
-            return response.data.data;
+            return isBoolean(response.data.data) ? (response.data.data === false ? response.data.data : true) : response.data.data || true;
           case 409:
             store.commit('loading', false);
             Notify.create({ type: 'warning', message: response.data.data });
@@ -37,7 +37,7 @@ service.interceptors.response.use(
       } else {
         switch (response.data.httpCode) {
           case 200:
-            return response.data;
+            return response.data || true;
           case 409:
             store.commit('loading', false);
             Notify.create({ type: 'warning', message: response.data.msg });

@@ -119,6 +119,10 @@ export function isBlob(source) {
   return toString.call(source) === '[object Blob]';
 }
 
+export function isBoolean(source) {
+  return toString.call(source) === '[object Boolean]';
+}
+
 /**
  *
  */
