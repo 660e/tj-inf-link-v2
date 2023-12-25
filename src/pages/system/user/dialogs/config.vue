@@ -2,7 +2,7 @@
   <iot-dialog :visible="visible" :width="500" title="维护" :buttons="[{ label: '关闭', command: 'cancel' }]" @handle="handle">
     <q-form>
       <iot-form-item
-        :nodes="nodes"
+        :nodes="deptNodes"
         :clearable="false"
         :hint="`为“${loginName}”分配机构`"
         @input="deptIdInput"
@@ -21,7 +21,7 @@
       <q-separator class="q-my-md" />
 
       <iot-form-item
-        :options="options"
+        :options="roleOptions"
         :clearable="false"
         :hint="`为“${loginName}”分配权限`"
         @input="roleIdInput"
@@ -39,6 +39,29 @@
       </iot-table-simple>
 
       <q-separator class="q-my-md" />
+
+      <iot-form-item
+        :options="tenantOptions"
+        :clearable="false"
+        :hint="`为“${loginName}”分配租户`"
+        @input="tenantIdInput"
+        label="租户"
+        option-label="tenantName"
+        option-value="id"
+        type="select"
+        width="40"
+        vertical
+      />
+      <iot-table-simple v-if="tenantData.length" :data="tenantData" :columns="tenantColumns">
+        <template v-slot:handle="{ props }">
+          <q-icon
+            @click="remove('tenantId', 'deleteTenantFromUser', props.row)"
+            class="cursor-pointer text-negative"
+            name="delete_outline"
+            size="xs"
+          />
+        </template>
+      </iot-table-simple>
     </q-form>
   </iot-dialog>
 </template>
@@ -54,16 +77,28 @@ export default {
       visible: false,
       id: '',
       loginName: '-',
-      nodes: [],
+      deptNodes: [],
       deptData: [],
       deptColumns: [
         { label: '名称', name: 'deptName', field: 'deptName', align: 'left' },
         { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
       ],
-      options: [],
+      roleOptions: [],
       roleData: [],
       roleColumns: [
         { label: '账号', name: 'roleName', field: 'roleName', align: 'left' },
+        { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
+      ],
+      tenantOptions: [],
+      tenantData: [],
+      tenantColumns: [
+        { label: '名称', name: 'tenantName', field: 'tenantName', align: 'left' },
+        { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
+      ],
+      resourceOptions: [],
+      resourceData: [],
+      resourceColumns: [
+        { label: '名称', name: 'tenantName', field: 'tenantName', align: 'left' },
         { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
       ]
     };
@@ -72,12 +107,19 @@ export default {
     open(row) {
       this.id = row.id;
       this.loginName = row.loginName;
+
       const p0 = sysApi.getDeptTree();
       const p1 = sysApi.rolelist();
-      Promise.all([p0, p1]).then(response => {
+      const p2 = sysApi.tenantlist();
+
+      Promise.all([p0, p1, p2]).then(response => {
         flattenTree(response[0]).forEach(e => (e.disabled = e.deptState === '0'));
-        this.nodes = response[0];
-        this.options = response[1];
+        this.deptNodes = response[0];
+        this.roleOptions = response[1];
+        this.tenantOptions = response[2];
+
+        console.log(response[2]);
+
         this.onRequest();
         this.visible = true;
       });
@@ -97,9 +139,12 @@ export default {
     roleIdInput(val) {
       sysApi.addRoleForUser({ roleId: val, userId: this.id }).then(response => response && this.onRequest());
     },
+    tenantIdInput(val) {
+      sysApi.addTenantForUser({ tenantId: val, userId: this.id }).then(response => response && this.onRequest());
+    },
     remove(id, fn, row) {
       popconfirm({
-        message: `是否删除${fn === 'deleteDeptFromUser' ? row.deptName : row.roleName}`,
+        message: `是否删除${row.deptName || row.roleName || row.tenantName || row.resSpaceName}`,
         ok: {
           color: 'negative'
         }
@@ -118,11 +163,16 @@ export default {
     },
     onRequest() {
       this.$store.commit('loading', true);
+
       const p0 = sysApi.findDeptInfosByUserId({ userId: this.id });
       const p1 = sysApi.findRolesByUserId({ userId: this.id });
-      Promise.all([p0, p1]).then(response => {
+      const p2 = sysApi.findTenantsByUserId({ userId: this.id });
+
+      Promise.all([p0, p1, p2]).then(response => {
         this.deptData = response[0];
         this.roleData = response[1];
+        this.tenantData = response[2];
+
         this.$store.commit('loading', false);
       });
     }

@@ -90,9 +90,6 @@ export default {
       this.isSysAdmin = response;
       this.search();
     });
-    sysApi.tenantlist().then(response => {
-      console.log(response);
-    });
   },
   methods: {
     onRequest(pagination) {

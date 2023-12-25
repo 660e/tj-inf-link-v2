@@ -222,24 +222,32 @@ const sysApi = {
     return service.get(`/tdf-service-sys/sys/tenant-user/findUsersByTenantId?tenantId=${tenantId}`);
   },
 
-  addTenantForUser(params) {
-    return service.post('/tdf-service-sys/tenant-user', params);
+  findTenantsByUserId(params) {
+    return service.get('/tdf-service-sys/sys/tenant-user/findTenantsByUserId', { params });
   },
 
-  deleteTenantFromUser(params) {
-    return service.delete('/tdf-service-sys/tenant-user', params);
+  addTenantForUser(params) {
+    return service.post('/tdf-service-sys/sys/tenant-user', params);
+  },
+
+  deleteTenantFromUser(data) {
+    return service.delete('/tdf-service-sys/sys/tenant-user/delete', { data });
   },
 
   findUsersByResSpaceId(resSpaceId) {
     return service.get(`/tdf-service-sys/sys/resspace-user/findUsersByResSpaceId?resSpaceId=${resSpaceId}`);
   },
 
+  findResSpacesByUserId(params) {
+    return service.get('/tdf-service-sys/sys/resspace-user/findResSpacesByUserId', { params });
+  },
+
   addResspaceForUser(params) {
     return service.post('/tdf-service-sys/sys/resspace-user', params);
   },
 
-  deleteResspaceFromUser(params) {
-    return service.delete('/tdf-service-sys/sys/resspace-user', params);
+  deleteResspaceFromUser(data) {
+    return service.delete('/tdf-service-sys/sys/resspace-user/delete', { data });
   }
 };
 
