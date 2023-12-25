@@ -35,12 +35,14 @@
             <q-icon name="download" />
           </q-item-section>
         </q-item>
+        <!--
         <q-item @click="pick" clickable v-ripple>
           <q-item-section>导入数据</q-item-section>
           <q-item-section side>
             <q-icon name="upload" />
           </q-item-section>
         </q-item>
+        -->
       </q-list>
       <template v-if="banner.color">
         <q-separator class="q-my-sm" />

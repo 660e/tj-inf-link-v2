@@ -7,8 +7,22 @@
     @handle="handle"
   >
     <div class="q-pa-md q-gutter-y-md">
+      <q-select
+        v-model="resource"
+        :options="resourceOptions"
+        label="资源空间"
+        option-label="resSpaceName"
+        option-value="id"
+        dense
+        emit-value
+        hide-bottom-space
+        map-options
+        options-dense
+        outlined
+      />
       <q-uploader
         :factory="factory"
+        :disable="!resource"
         @added="added"
         @removed="removed"
         @uploaded="uploaded"
@@ -30,6 +44,7 @@
 
 <script>
 import { extend } from 'quasar';
+import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { devicesApi } from '@/api/wsat-service-device/devices.js';
 import * as XLSX from 'xlsx/xlsx.mjs';
 
@@ -42,13 +57,18 @@ export default {
       sheetNames: [],
       totalNum: 0,
       banner: {},
-      file: null
+      file: null,
+      resource: '',
+      resourceOptions: []
     };
   },
   methods: {
     open(card) {
       this.card = extend(true, {}, card);
-      this.visible = true;
+      sysApi.resSpacelist().then(response => {
+        this.resourceOptions = response;
+        this.visible = true;
+      });
     },
     factory() {
       return devicesApi.oneKeyCheckDevices(this.sheetNames.join(','));
@@ -111,7 +131,8 @@ export default {
           const params = {
             file: this.file,
             sheetNames: this.sheetNames,
-            totalNum: this.totalNum
+            totalNum: this.totalNum,
+            resSpaceId: this.resource
           };
           devicesApi.oneKeyUpload(params).then(response => {
             if (response) {
