@@ -105,11 +105,8 @@ export default {
             label: '删除',
             command: 'remove',
             color: 'negative',
-            disable: row => {
-              return row.loginName === 'sys_admin' || row.loginName === SessionStorage.getItem('account').login.name;
-            },
-            tooltip: row => {
-              return row.loginName === 'sys_admin' ? '默认账户' : '当前账户';
+            show: row => {
+              return row.loginName !== 'sys_admin' && row.loginName !== SessionStorage.getItem('account').login.name;
             }
           }
         ]

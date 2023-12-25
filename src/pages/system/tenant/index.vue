@@ -5,7 +5,11 @@
     <div class="layout-content">
       <div class="layout-main">
         <iot-searchbar :fields="fields" @search="search" />
-        <iot-toolbar :buttons="[{ label: '新增', command: 'create' }]" @handle="handle" @refresh="refresh" />
+        <div class="q-mx-md q-mt-md flex justify-between">
+          <q-btn v-if="isSysAdmin" @click="handle({ command: 'create' })" label="新增" />
+          <div v-else></div>
+          <q-btn @click="refresh" label="刷新" />
+        </div>
         <iot-table :data="data" :columns="columns" :pagination="pagination" @request="onRequest" sticky>
           <template v-slot:handle="{ props }">
             <iot-table-handle :props="props" @handle="handle" />
@@ -14,20 +18,21 @@
       </div>
     </div>
     <!-- 新增、修改 -->
-    <!-- <create-dialog ref="createDialog" @confirm="refresh" /> -->
+    <create-dialog ref="createDialog" @confirm="refresh" />
   </div>
 </template>
 
 <script>
 import { sysApi } from '@/api/tdf-service-sys/sys.js';
-// import { extendApi } from '@/api/tdf-service-sys/extend.js';
 import { popconfirm } from '@/utils/framework.js';
-// import CreateDialog from './dialogs/create.vue';
+import { SessionStorage } from 'quasar';
+import CreateDialog from './dialogs/create.vue';
 
 export default {
-  // components: { CreateDialog },
+  components: { CreateDialog },
   data() {
     return {
+      isSysAdmin: false,
       breadcrumbs: [],
       fields: [],
       filters: {},
@@ -38,51 +43,49 @@ export default {
   },
   mounted() {
     this.breadcrumbs = [{ label: '系统管理' }, { label: '租户管理' }];
-    this.fields = [{ label: '名称', key: 'menuName', type: 'input' }];
+    this.fields = [{ label: '名称', key: 'tenantName', type: 'input' }];
     this.columns = [
-      // { label: '排序号', name: 'menuIndex', field: 'menuIndex', style: 'width: 70px' },
-      // { label: '名称', name: 'menuName', field: 'menuName', align: 'left' },
-      // { label: '类型', name: 'menuDesc', field: 'menuDesc', align: 'left' },
-      // { label: '图标', name: 'smallIconPath', field: 'smallIconPath', align: 'left' },
-      // { label: '路径', name: 'menuUrl', field: 'menuUrl', align: 'left' },
-      // {
-      //   label: '创建时间',
-      //   name: 'createdDate',
-      //   field: 'createdDate',
-      //   align: 'left',
-      //   format: val => (val ? val.slice(0, 19).replace('T', ' ') : '-')
-      // },
-      // {
-      //   label: '操作',
-      //   name: 'handle',
-      //   field: 'handle',
-      //   align: 'left',
-      //   style: 'width: 10px',
-      //   handles: [
-      //     {
-      //       label: '修改',
-      //       command: 'edit',
-      //       disable: row => row.customType === 1,
-      //       tooltip: '系统内置菜单'
-      //     },
-      //     {
-      //       label: '删除',
-      //       command: 'remove',
-      //       color: 'negative',
-      //       disable: row => row.customType === 1,
-      //       tooltip: '系统内置菜单'
-      //     }
-      //   ]
-      // }
+      { label: '名称', name: 'tenantName', field: 'tenantName', align: 'left' },
+      { label: '描述', name: 'tenantDescription', field: 'tenantDescription', align: 'left' },
+      {
+        label: '创建时间',
+        name: 'createdDate',
+        field: 'createdDate',
+        align: 'left',
+        format: val => (val ? val.slice(0, 19).replace('T', ' ') : '-')
+      },
+      {
+        label: '修改时间',
+        name: 'modifiedDate',
+        field: 'modifiedDate',
+        align: 'left',
+        format: val => (val ? val.slice(0, 19).replace('T', ' ') : '-')
+      },
+      {
+        label: '操作',
+        name: 'handle',
+        field: 'handle',
+        align: 'left',
+        style: 'width: 10px',
+        handles: [
+          {
+            label: '修改',
+            command: 'edit',
+            show: () => this.isSysAdmin
+          },
+          {
+            label: '删除',
+            command: 'remove',
+            color: 'negative',
+            show: () => this.isSysAdmin
+          }
+        ]
+      }
     ];
-    // extendApi.getDateItemByParentcode({ code: 'menuDesc' }).then(response => {
-    //   this.fields.find(e => e.key === 'menuDesc').options = response;
-    //   this.columns.find(e => e.name === 'menuDesc').format = val => {
-    //     return response.find(e => e.code === val) ? response.find(e => e.code === val).name : '-';
-    //   };
-    //   this.search();
-    // });
-    this.search();
+    sysApi.checkCurrUserIsSysAdmin(SessionStorage.getItem('account').login.name).then(response => {
+      this.isSysAdmin = response;
+      this.search();
+    });
   },
   methods: {
     onRequest(pagination) {
@@ -90,11 +93,10 @@ export default {
       const params = {
         page: pagination.page,
         pageSize: pagination.rowsPerPage,
-        sorts: [{ fieldName: 'userIndex', direction: 'asc' }],
+        sorts: [{ fieldName: '', direction: 'asc' }],
         filters: this.filters
       };
-      console.log(params);
-      sysApi.alldata(params).then(response => {
+      sysApi.queryTenantAlldata(params).then(response => {
         this.pagination.page = response.page;
         this.pagination.rowsPerPage = response.pageSize;
         this.pagination.rowsNumber = response.total;
@@ -120,7 +122,7 @@ export default {
           break;
         case 'remove':
           popconfirm({
-            message: `是否删除${row.menuName}`,
+            message: `是否删除${row.tenantName}`,
             ok: {
               color: 'negative'
             }

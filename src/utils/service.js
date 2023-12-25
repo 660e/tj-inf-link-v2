@@ -25,7 +25,7 @@ service.interceptors.response.use(
       if (response.data.code) {
         switch (response.data.code) {
           case 200:
-            return response.data.data || true;
+            return response.data.data;
           case 409:
             store.commit('loading', false);
             Notify.create({ type: 'warning', message: response.data.data });
@@ -37,7 +37,7 @@ service.interceptors.response.use(
       } else {
         switch (response.data.httpCode) {
           case 200:
-            return response.data || true;
+            return response.data;
           case 409:
             store.commit('loading', false);
             Notify.create({ type: 'warning', message: response.data.msg });
