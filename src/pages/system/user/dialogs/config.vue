@@ -3,8 +3,8 @@
     <q-form>
       <iot-form-item
         :nodes="nodes"
-        :hint="`为“${loginName}”分配机构`"
         :clearable="false"
+        :hint="`为“${loginName}”分配机构`"
         @input="deptIdInput"
         label="机构"
         type="cascader"
@@ -12,28 +12,33 @@
         width="40"
         vertical
       />
-      <iot-table-simple v-if="deptData.length" :data="deptData" :columns="deptColumns" class="q-my-md">
+      <iot-table-simple v-if="deptData.length" :data="deptData" :columns="deptColumns">
         <template v-slot:handle="{ props }">
           <q-icon @click="remove('deptId', 'deleteDeptFromUser', props.row)" class="cursor-pointer text-negative" name="delete_outline" size="xs" />
         </template>
       </iot-table-simple>
+
+      <q-separator class="q-my-md" />
+
       <iot-form-item
         :options="options"
-        :hint="`为“${loginName}”分配权限`"
         :clearable="false"
+        :hint="`为“${loginName}”分配权限`"
         @input="roleIdInput"
+        label="权限"
         option-label="roleName"
         option-value="id"
-        label="权限"
         type="select"
         width="40"
         vertical
       />
-      <iot-table-simple v-if="roleData.length" :data="roleData" :columns="roleColumns" class="q-my-md">
+      <iot-table-simple v-if="roleData.length" :data="roleData" :columns="roleColumns">
         <template v-slot:handle="{ props }">
           <q-icon @click="remove('roleId', 'deleteRoleFromUser', props.row)" class="cursor-pointer text-negative" name="delete_outline" size="xs" />
         </template>
       </iot-table-simple>
+
+      <q-separator class="q-my-md" />
     </q-form>
   </iot-dialog>
 </template>
@@ -68,7 +73,7 @@ export default {
       this.id = row.id;
       this.loginName = row.loginName;
       const p0 = sysApi.getDeptTree();
-      const p1 = sysApi.getRoleAll();
+      const p1 = sysApi.rolelist();
       Promise.all([p0, p1]).then(response => {
         flattenTree(response[0]).forEach(e => (e.disabled = e.deptState === '0'));
         this.nodes = response[0];

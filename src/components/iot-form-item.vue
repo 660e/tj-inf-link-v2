@@ -75,9 +75,6 @@
       <template v-slot:after>
         <slot name="after" />
       </template>
-      <template v-slot:hint>
-        <slot name="hint" />
-      </template>
     </q-select>
     <!-- toggle -->
     <q-toggle v-if="type === 'toggle'" v-model="v" @input="input" :true-value="trueValue" :false-value="falseValue" :disable="disable" />
