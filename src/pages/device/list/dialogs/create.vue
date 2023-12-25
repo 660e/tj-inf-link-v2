@@ -2,6 +2,26 @@
   <iot-dialog :visible="visible" :width="1000" :title="isCreate ? '新增' : '修改'" @handle="handle" @confirm="confirm" @cancel="cancel" dense>
     <q-form>
       <q-list>
+        <!-- 归属空间资源 -->
+        <q-expansion-item label="归属资源空间" :header-class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3']" default-opened dense>
+          <q-card-section class="card-section">
+            <iot-form-item
+              label="归属资源空间"
+              :value.sync="forms.resSapceId"
+              :validator="$v.forms.resSapceId"
+              :options="resSapceIdOptions"
+              option-label="resSpaceName"
+              option-value="id"
+              type="select"
+              width="110"
+            >
+              <template v-slot:after>
+                <div @click="$router.push({ name: 'system-resource' })" class="text-sm text-primary cursor-pointer">创建资源空间</div>
+              </template>
+            </iot-form-item>
+          </q-card-section>
+        </q-expansion-item>
+
         <!-- 基本信息 -->
         <q-expansion-item label="基本信息" :header-class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3']" default-opened dense>
           <q-card-section class="card-section">
@@ -85,6 +105,8 @@
             <iot-form-item label="固件版本" :value.sync="forms.firmwareVersion" type="text" maxlength="32" width="110" />
           </q-card-section>
         </q-expansion-item>
+
+        <!-- 位置信息 -->
         <q-expansion-item label="位置信息" :header-class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3']" dense>
           <q-card-section class="card-section">
             <iot-form-item
@@ -103,6 +125,7 @@
             </div>
           </q-card-section>
         </q-expansion-item>
+
         <!-- 自定义信息 -->
         <q-expansion-item label="自定义信息" :header-class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3']" dense>
           <q-card-section class="card-section">
@@ -118,6 +141,7 @@
             </div>
           </q-card-section>
         </q-expansion-item>
+
         <!-- 运维信息 -->
         <q-expansion-item label="运维信息" :header-class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3']" dense>
           <q-card-section class="card-section">
@@ -138,6 +162,7 @@
             <iot-form-date label="出厂日期" v-model="forms.manufactureDate" width="110" />
           </q-card-section>
         </q-expansion-item>
+
         <!-- 设备业务编码 -->
         <q-expansion-item
           :label="`设备业务编码${forms.sn ? '：' : ''}${forms.sn || ''}`"
@@ -180,6 +205,7 @@
             </template>
           </q-card-section>
         </q-expansion-item>
+
         <!-- 设备分组 -->
         <q-expansion-item label="设备分组" :header-class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3']" dense>
           <q-card-section class="card-section">
@@ -194,6 +220,7 @@
             />
           </q-card-section>
         </q-expansion-item>
+
         <!-- 设备图片 -->
         <q-expansion-item label="设备图片" :header-class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3']" dense>
           <q-card-section class="card-section">
@@ -242,6 +269,7 @@
         </q-expansion-item>
       </q-list>
     </q-form>
+
     <!-- 添加 -->
     <add-kv-dialog ref="addKvDialog" @confirm="onAddKv" />
   </iot-dialog>

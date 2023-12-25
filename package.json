@@ -2,7 +2,7 @@
   "name": "inf-link-v2",
   "version": "2.1.250.2",
   "description": "",
-  "productName": "",
+  "productName": "INF-LINK物联网平台",
   "author": "660e",
   "private": true,
   "scripts": {

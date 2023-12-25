@@ -2,6 +2,7 @@ import { devicesApi } from '@/api/wsat-service-device/devices.js';
 import { deviceCodeApi } from '@/api/wsat-service-device/device-code.js';
 import { minioApi } from '@/api/wsat-service-device/minio.js';
 import { extendApi } from '@/api/tdf-service-sys/extend.js';
+import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { extend, format } from 'quasar';
 import { required, requiredIf, ipAddress } from 'vuelidate/lib/validators';
 import { urlsToFiles } from '@/utils/data.js';
@@ -43,6 +44,7 @@ export default {
         pid: ''
       },
       forms: {
+        resSapceId: '',
         // 基本信息
         name: '',
         deviceSn: '',
@@ -94,6 +96,7 @@ export default {
         // 设备分组与自定义信息
         kvList: []
       },
+      resSapceIdOptions: [],
       productIdOptions: [],
       pidOptions: [],
       switchNumberOptions: [],
@@ -111,6 +114,7 @@ export default {
   },
   validations: {
     forms: {
+      resSapceId: { required },
       name: { required },
       deviceSn: { required },
       productId: { required },
@@ -139,13 +143,17 @@ export default {
       const p2 = extendApi.getDateItemBycodes(['switchNumber', 'securityPolicy', 'securityMode', 'deviceBrand']);
       const p3 = deviceCodeApi.findDeviceCodeRule();
       const p4 = devicesApi.getGroups();
-      Promise.all([p0, p1, p2, p3, p4]).then(response => {
+      const p5 = sysApi.resSpacelist();
+
+      Promise.all([p0, p1, p2, p3, p4, p5]).then(response => {
         this.productIdOptions = response[0].data;
         this.pidOptions = response[1].data;
         this.switchNumberOptions = response[2].switchNumber;
         this.securityPolicyOptions = response[2].securityPolicy;
         this.securityModeOptions = response[2].securityMode;
         this.deviceBrandOptions = response[2].deviceBrand;
+        this.resSapceIdOptions = response[5];
+
         if (!pid && (productId === 0 || !!productId)) {
           const product = this.productIdOptions.find(p => p.id === productId);
           this.surface.nodeType = product.nodeType;
@@ -157,6 +165,7 @@ export default {
           this.field.pid = this.pidOptions.find(d => d.id === pid).name;
           this.forms.pid = pid;
         }
+
         Promise.all(response[3].data.map(r => deviceCodeApi.findDeviceCodeProperty(r.id))).then(propResponse => {
           this.surface.rules = response[3].data.map(e => {
             return {
