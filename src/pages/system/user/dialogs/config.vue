@@ -156,8 +156,8 @@ export default {
       const p0 = sysApi.checkCurrUserIsSysAdmin(SessionStorage.getItem('account').login.name);
       const p1 = sysApi.tenantlist();
       const p2 = sysApi.getDeptTree();
-      const p3 = sysApi.rolelist();
-      const p4 = sysApi.resSpacelist();
+      const p3 = sysApi.rolelistByUserId(this.id);
+      const p4 = sysApi.resSpacelistByUserId(this.id);
 
       Promise.all([p0, p1, p2, p3, p4]).then(response => {
         this.isSysAdmin = response[0];

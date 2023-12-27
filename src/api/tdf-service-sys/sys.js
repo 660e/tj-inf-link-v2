@@ -182,8 +182,8 @@ const sysApi = {
     return service.put('/tdf-service-sys/sys/tenant/', params);
   },
 
-  rolelist() {
-    return service.get('/tdf-service-sys/sys/role/query/rolelist');
+  rolelistByUserId(userId) {
+    return service.get('/tdf-service-sys/sys/role/query/rolelistByUserId', { params: { userId } });
   },
 
   queryRoleAlldata(params) {
@@ -200,6 +200,10 @@ const sysApi = {
 
   resSpacelist() {
     return service.get('/tdf-service-sys/sys/resspace/query/resSpacelist');
+  },
+
+  resSpacelistByUserId(userId) {
+    return service.get('/tdf-service-sys/sys/resspace/query/resSpacelistByUserId', { params: { userId } });
   },
 
   queryResspaceAlldata(params) {
