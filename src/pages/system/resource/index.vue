@@ -6,8 +6,7 @@
       <div class="layout-main">
         <iot-searchbar :fields="fields" @search="search" />
         <div class="q-mx-md q-mt-md flex justify-between">
-          <q-btn v-if="isSysAdmin" @click="handle({ command: 'create' })" label="新增" />
-          <div v-else></div>
+          <q-btn @click="handle({ command: 'create' })" label="新增" />
           <q-btn @click="refresh" label="刷新" />
         </div>
         <iot-table :data="data" :columns="columns" :pagination="pagination" @request="onRequest" sticky>
@@ -71,11 +70,7 @@ export default {
         align: 'left',
         style: 'width: 10px',
         handles: [
-          {
-            label: '修改',
-            command: 'edit',
-            show: () => this.isSysAdmin
-          },
+          { label: '修改', command: 'edit' },
           {
             label: '删除',
             command: 'remove',
