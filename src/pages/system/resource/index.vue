@@ -70,7 +70,7 @@ export default {
         handles: [
           { label: '修改', command: 'edit' },
           { label: '删除', command: 'remove', color: 'negative' },
-          { label: '用户权限', command: 'user' }
+          { label: '关联用户', command: 'user' }
         ]
       }
     ];

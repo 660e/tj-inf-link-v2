@@ -73,7 +73,7 @@ export default {
         handles: [
           { label: '修改', command: 'edit', show: () => this.isSysAdmin },
           { label: '删除', command: 'remove', color: 'negative', show: () => this.isSysAdmin },
-          { label: '用户权限', command: 'user' }
+          { label: '关联用户', command: 'user' }
         ]
       }
     ];

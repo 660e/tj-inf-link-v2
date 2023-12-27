@@ -1,5 +1,5 @@
 <template>
-  <iot-dialog :visible="visible" :width="500" title="用户权限" @confirm="confirm" @cancel="cancel">
+  <iot-dialog :visible="visible" :width="500" title="关联用户" @confirm="confirm" @cancel="cancel">
     <q-form>
       <iot-form-item
         v-model="userId"
