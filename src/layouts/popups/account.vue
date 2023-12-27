@@ -33,10 +33,22 @@
         <q-item clickable>
           <q-item-section>许可证有效期至</q-item-section>
           <q-item-section side>{{ licenses || '-' }}</q-item-section>
-          <q-uploader :factory="factory" @uploaded="uploaded" @failed="failed" accept=".license" class="hidden" max-files="1" ref="uploader" auto-upload />
+          <q-uploader
+            :factory="factory"
+            @uploaded="uploaded"
+            @failed="failed"
+            accept=".license"
+            class="hidden"
+            max-files="1"
+            ref="uploader"
+            auto-upload
+          />
         </q-item>
         <q-item v-if="!update" @click="upload" clickable>
           <q-item-section class="text-primary">更新许可证</q-item-section>
+        </q-item>
+        <q-item @click="$refs.changePasswordDialog.open()" clickable>
+          <q-item-section class="text-primary">修改密码</q-item-section>
         </q-item>
       </q-list>
       <q-separator class="q-mt-sm" />
@@ -44,6 +56,9 @@
         <q-btn @click="logout" label="退出" class="col" color="negative" dense flat />
       </div>
     </div>
+
+    <!-- 修改密码 -->
+    <change-password-dialog ref="changePasswordDialog" />
   </q-popup-proxy>
 </template>
 
@@ -56,7 +71,10 @@ import languages from 'quasar/lang/index.json';
 import zh_hans from 'quasar/lang/zh-hans.js';
 import en_us from 'quasar/lang/en-us.js';
 
+import ChangePasswordDialog from '../dialogs/change-password.vue';
+
 export default {
+  components: { ChangePasswordDialog },
   props: {
     account: {
       type: Object,

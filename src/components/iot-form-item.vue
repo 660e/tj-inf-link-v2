@@ -6,9 +6,9 @@
     </h6>
     <!-- field -->
     <span v-if="type === 'field'">{{ v }}</span>
-    <!-- text || textarea -->
+    <!-- text || textarea || password -->
     <q-input
-      v-if="type === 'text' || type === 'textarea'"
+      v-if="type === 'text' || type === 'textarea' || type === 'password'"
       v-model="v"
       :type="type"
       :error="validator.$error"

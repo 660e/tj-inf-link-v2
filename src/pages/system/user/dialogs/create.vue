@@ -8,7 +8,7 @@
         :value.sync="surface.password1"
         :validator="$v.surface.password1"
         label="密码"
-        type="text"
+        type="password"
         hint="10~32个字符，包含大写字母、小写字母、数字、字符（@$!%*?&）"
       />
       <iot-form-item
@@ -16,7 +16,7 @@
         :value.sync="surface.password2"
         :validator="$v.surface.password2"
         label="密码"
-        type="text"
+        type="password"
         hint="10~32个字符，包含大写字母、小写字母、数字、字符（@$!%*?&）"
       />
       <iot-form-item :value.sync="forms.phoneNum" :validator="$v.forms.phoneNum" label="手机号" type="text" maxlength="11" />
