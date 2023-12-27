@@ -1,29 +1,35 @@
 <template>
   <iot-dialog :visible="visible" :width="500" title="维护" :buttons="[{ label: '关闭', command: 'cancel' }]" @handle="handle">
     <q-form>
-      <iot-form-item
-        v-model="tenant"
-        :options="tenantOptions"
-        :clearable="false"
-        :hint="`为“${loginName}”关联租户`"
-        @input="tenantIdInput"
-        label="租户"
-        option-label="tenantName"
-        option-value="id"
-        type="select"
-        width="40"
-        vertical
-      />
-      <iot-table-simple v-if="tenantData.length" :data="tenantData" :columns="tenantColumns">
-        <template v-slot:handle="{ props }">
-          <q-icon
-            @click="remove('tenantId', 'deleteTenantFromUser', props.row)"
-            class="cursor-pointer text-negative"
-            name="delete_outline"
-            size="xs"
-          />
-        </template>
-      </iot-table-simple>
+      <template v-if="isSysAdmin">
+        <iot-form-item
+          v-model="tenant"
+          :options="tenantOptions"
+          :clearable="false"
+          :hint="`为“${loginName}”关联租户`"
+          @input="tenantIdInput"
+          label="租户"
+          option-label="tenantName"
+          option-value="id"
+          type="select"
+          width="40"
+          vertical
+        />
+        <iot-table-simple :data="tenantData" :columns="tenantColumns">
+          <template v-slot:handle="{ props }">
+            <q-icon
+              @click="remove('tenantId', 'deleteTenantFromUser', props.row)"
+              class="cursor-pointer text-negative"
+              name="delete_outline"
+              size="xs"
+            />
+          </template>
+        </iot-table-simple>
+      </template>
+      <template v-else>
+        <div class="text-sm leading-none" style="padding-bottom: 6px">租户</div>
+        <iot-table-simple :data="tenantData" :columns="tenantColumns" />
+      </template>
 
       <q-separator class="q-my-md" />
 
@@ -39,7 +45,7 @@
         width="40"
         vertical
       />
-      <iot-table-simple v-if="deptData.length" :data="deptData" :columns="deptColumns">
+      <iot-table-simple :data="deptData" :columns="deptColumns">
         <template v-slot:handle="{ props }">
           <q-icon @click="remove('deptId', 'deleteDeptFromUser', props.row)" class="cursor-pointer text-negative" name="delete_outline" size="xs" />
         </template>
@@ -60,7 +66,7 @@
         width="40"
         vertical
       />
-      <iot-table-simple v-if="roleData.length" :data="roleData" :columns="roleColumns">
+      <iot-table-simple :data="roleData" :columns="roleColumns">
         <template v-slot:handle="{ props }">
           <q-icon @click="remove('roleId', 'deleteRoleFromUser', props.row)" class="cursor-pointer text-negative" name="delete_outline" size="xs" />
         </template>
@@ -81,7 +87,7 @@
         width="40"
         vertical
       />
-      <iot-table-simple v-if="resourceData.length" :data="resourceData" :columns="resourceColumns">
+      <iot-table-simple :data="resourceData" :columns="resourceColumns">
         <template v-slot:handle="{ props }">
           <q-icon
             @click="remove('resSpaceId', 'deleteResspaceFromUser', props.row)"
@@ -99,6 +105,7 @@
 import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { popconfirm } from '@/utils/framework.js';
 import { flattenTree } from '@/utils/data.js';
+import { SessionStorage } from 'quasar';
 
 export default {
   data() {
@@ -106,6 +113,7 @@ export default {
       visible: false,
       id: '',
       loginName: '-',
+      isSysAdmin: false,
 
       tenant: '',
       tenantOptions: [],
@@ -145,17 +153,20 @@ export default {
       this.id = row.id;
       this.loginName = row.loginName;
 
-      const p2 = sysApi.tenantlist();
-      const p0 = sysApi.getDeptTree();
-      const p1 = sysApi.rolelist();
-      const p3 = sysApi.resSpacelist();
+      const p0 = sysApi.checkCurrUserIsSysAdmin(SessionStorage.getItem('account').login.name);
+      const p1 = sysApi.tenantlist();
+      const p2 = sysApi.getDeptTree();
+      const p3 = sysApi.rolelist();
+      const p4 = sysApi.resSpacelist();
 
-      Promise.all([p0, p1, p2, p3]).then(response => {
-        flattenTree(response[0]).forEach(e => (e.disabled = e.deptState === '0'));
-        this.tenantOptions = response[2];
-        this.deptNodes = response[0];
-        this.roleOptions = response[1];
-        this.resourceOptions = response[3];
+      Promise.all([p0, p1, p2, p3, p4]).then(response => {
+        this.isSysAdmin = response[0];
+
+        flattenTree(response[1]).forEach(e => (e.disabled = e.deptState === '0'));
+        this.tenantOptions = response[1];
+        this.deptNodes = response[2];
+        this.roleOptions = response[3];
+        this.resourceOptions = response[4];
 
         this.onRequest();
         this.visible = true;
@@ -212,15 +223,15 @@ export default {
     onRequest() {
       this.$store.commit('loading', true);
 
-      const p2 = sysApi.findTenantsByUserId({ userId: this.id });
-      const p0 = sysApi.findDeptInfosByUserId({ userId: this.id });
-      const p1 = sysApi.findRolesByUserId({ userId: this.id });
+      const p0 = sysApi.findTenantsByUserId({ userId: this.id });
+      const p1 = sysApi.findDeptInfosByUserId({ userId: this.id });
+      const p2 = sysApi.findRolesByUserId({ userId: this.id });
       const p3 = sysApi.findResSpacesByUserId({ userId: this.id });
 
       Promise.all([p0, p1, p2, p3]).then(response => {
-        this.tenantData = response[2];
-        this.deptData = response[0];
-        this.roleData = response[1];
+        this.tenantData = response[0];
+        this.deptData = response[1];
+        this.roleData = response[2];
         this.resourceData = response[3];
 
         this.tenant = '';
