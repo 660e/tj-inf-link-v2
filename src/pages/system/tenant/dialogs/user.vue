@@ -1,7 +1,18 @@
 <template>
   <iot-dialog :visible="visible" :width="500" title="用户权限" @confirm="confirm" @cancel="cancel">
     <q-form>
-      <div style="font-size: 14px; padding-bottom: 10px">当前租户：{{ tenantName }}</div>
+      <iot-form-item
+        v-model="userId"
+        :options="userIdOptions"
+        :clearable="false"
+        :label="`当前租户：${tenantName}`"
+        @input="userIdInput"
+        option-label="userName"
+        option-value="id"
+        type="select"
+        width="40"
+        vertical
+      />
       <iot-table-simple :data="data" :columns="columns">
         <template v-slot:handle="{ props }">
           <q-icon @click="remove(props.row)" class="cursor-pointer text-negative" name="delete_outline" size="xs" />
@@ -19,10 +30,12 @@ export default {
   data() {
     return {
       visible: false,
+      userId: '',
       tenantName: '-',
       tenantId: '',
       data: [],
-      columns: []
+      columns: [],
+      userIdOptions: []
     };
   },
   mounted() {
@@ -37,6 +50,7 @@ export default {
     open(row) {
       this.tenantName = row.tenantName;
       this.tenantId = row.id;
+
       this.onRequest();
       this.visible = true;
     },
@@ -53,6 +67,11 @@ export default {
         this.data = response;
         this.$store.commit('loading', false);
       });
+    },
+    userIdInput(val) {
+      if (val) {
+        sysApi.addTenantForUser({ tenantId: this.tenantId, userId: val }).then(response => response && this.onRequest());
+      }
     },
     remove(row) {
       popconfirm({
