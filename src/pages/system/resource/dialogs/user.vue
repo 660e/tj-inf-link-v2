@@ -51,8 +51,11 @@ export default {
       this.resSpaceName = row.resSpaceName;
       this.resSpaceId = row.id;
 
-      this.onRequest();
-      this.visible = true;
+      sysApi.userAllListByTenant(row.tenantId).then(response => {
+        this.userIdOptions = response;
+        this.onRequest();
+        this.visible = true;
+      });
     },
     confirm() {
       this.cancel();
@@ -66,6 +69,7 @@ export default {
       sysApi.findUsersByResSpaceId(this.resSpaceId).then(response => {
         this.data = response;
         this.$store.commit('loading', false);
+        this.userId = '';
       });
     },
     userIdInput(val) {

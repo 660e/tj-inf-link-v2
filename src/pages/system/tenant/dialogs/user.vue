@@ -51,8 +51,11 @@ export default {
       this.tenantName = row.tenantName;
       this.tenantId = row.id;
 
-      this.onRequest();
-      this.visible = true;
+      sysApi.userAllList().then(response => {
+        this.userIdOptions = response;
+        this.onRequest();
+        this.visible = true;
+      });
     },
     confirm() {
       this.cancel();
@@ -66,6 +69,7 @@ export default {
       sysApi.findUsersByTenantId(this.tenantId).then(response => {
         this.data = response;
         this.$store.commit('loading', false);
+        this.userId = '';
       });
     },
     userIdInput(val) {

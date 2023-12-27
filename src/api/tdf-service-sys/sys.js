@@ -252,6 +252,14 @@ const sysApi = {
 
   deleteResspaceFromUser(data) {
     return service.delete('/tdf-service-sys/sys/resspace-user/delete', { data });
+  },
+
+  userAllList() {
+    return service.post('/tdf-service-sys/sys/user/query/userAllList', {});
+  },
+
+  userAllListByTenant(tenantId) {
+    return service.get('/tdf-service-sys/sys/user/query/userAllListByTenant', { params: { tenantId } });
   }
 };
 
