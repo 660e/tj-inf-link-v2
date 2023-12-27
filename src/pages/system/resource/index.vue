@@ -26,7 +26,6 @@
 <script>
 import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { popconfirm } from '@/utils/framework.js';
-import { SessionStorage } from 'quasar';
 import CreateDialog from './dialogs/create.vue';
 import UserDialog from './dialogs/user.vue';
 
@@ -34,7 +33,6 @@ export default {
   components: { CreateDialog, UserDialog },
   data() {
     return {
-      isSysAdmin: false,
       breadcrumbs: [],
       fields: [],
       filters: {},
@@ -71,20 +69,12 @@ export default {
         style: 'width: 10px',
         handles: [
           { label: '修改', command: 'edit' },
-          {
-            label: '删除',
-            command: 'remove',
-            color: 'negative',
-            show: () => this.isSysAdmin
-          },
-          [{ label: '用户权限', command: 'user' }]
+          { label: '删除', command: 'remove', color: 'negative' },
+          { label: '用户权限', command: 'user' }
         ]
       }
     ];
-    sysApi.checkCurrUserIsSysAdmin(SessionStorage.getItem('account').login.name).then(response => {
-      this.isSysAdmin = response;
-      this.search();
-    });
+    this.search();
   },
   methods: {
     onRequest(pagination) {
