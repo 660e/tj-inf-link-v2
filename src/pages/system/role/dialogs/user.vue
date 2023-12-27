@@ -2,7 +2,7 @@
   <iot-dialog :visible="visible" :width="500" title="用户权限" @confirm="confirm" @cancel="cancel">
     <q-form>
       <div style="font-size: 14px; padding-bottom: 10px">当前权限：{{ roleName }}</div>
-      <iot-table-simple v-if="data.length" :data="data" :columns="columns">
+      <iot-table-simple :data="data" :columns="columns">
         <template v-slot:handle="{ props }">
           <q-icon @click="remove(props.row)" class="cursor-pointer text-negative" name="delete_outline" size="xs" />
         </template>
@@ -14,6 +14,7 @@
 <script>
 import { sysApi } from '@/api/tdf-service-sys/sys.js';
 import { popconfirm } from '@/utils/framework.js';
+
 export default {
   data() {
     return {
@@ -26,34 +27,10 @@ export default {
   },
   mounted() {
     this.columns = [
-      {
-        label: '登录名',
-        name: 'loginName',
-        field: 'loginName',
-        align: 'left'
-      },
-      {
-        label: '用户名',
-        name: 'userName',
-        field: 'userName',
-        align: 'left',
-        style: 'width: 100px'
-      },
-      {
-        label: '性别',
-        name: 'gender',
-        field: 'gender',
-        align: 'left',
-        style: 'width: 50px',
-        format: val => (val === '1' ? '男' : '女')
-      },
-      {
-        label: '操作',
-        name: 'handle',
-        field: 'handle',
-        align: 'left',
-        style: 'width: 10px'
-      }
+      { label: '登录名', name: 'loginName', field: 'loginName', align: 'left' },
+      { label: '用户名', name: 'userName', field: 'userName', align: 'left', style: 'width: 100px' },
+      { label: '性别', name: 'gender', field: 'gender', align: 'left', style: 'width: 50px', format: val => (val === '1' ? '男' : '女') },
+      { label: '操作', name: 'handle', field: 'handle', align: 'left', style: 'width: 10px' }
     ];
   },
   methods: {

@@ -2,7 +2,7 @@
   <iot-dialog :visible="visible" :width="500" title="用户权限" @confirm="confirm" @cancel="cancel">
     <q-form>
       <div style="font-size: 14px; padding-bottom: 10px">当前资源空间：{{ resSpaceName }}</div>
-      <iot-table-simple v-if="data.length" :data="data" :columns="columns">
+      <iot-table-simple :data="data" :columns="columns">
         <template v-slot:handle="{ props }">
           <q-icon @click="remove(props.row)" class="cursor-pointer text-negative" name="delete_outline" size="xs" />
         </template>
