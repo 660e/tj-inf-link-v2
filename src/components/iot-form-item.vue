@@ -12,7 +12,13 @@
       v-model="v"
       :type="type"
       :error="validator.$error"
-      :error-message="validator.required || validator.required === undefined ? '格式错误' : '必填项'"
+      :error-message="
+        validator.required || validator.required === undefined
+          ? type === 'password'
+            ? '10~32个字符，包含大写字母、小写字母、数字、字符（@$!%*?&）'
+            : '格式错误'
+          : '必填项'
+      "
       :hint="hint"
       :counter="!!maxlength"
       :maxlength="maxlength"
