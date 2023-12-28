@@ -3,6 +3,7 @@ import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import router from '@/router';
 import store from '@/store';
+import { service } from './service';
 
 export function encrypt(source) {
   const words = CryptoJS.enc.Utf8.parse(source);
@@ -51,26 +52,19 @@ export function logout() {
 }
 
 export function changePassword({ loginName, origPwd, newPwd }) {
-  axios
-    .get(
-      '/sys/user/updateUserPasswd',
-      {
-        params: {
-          loginName: encrypt(loginName),
-          origPwd: encrypt(origPwd),
-          newPwd: encrypt(newPwd)
-        }
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${LocalStorage.getItem('access_token')}`
-        }
+  service
+    .get('/tdf-service-sys/sys/user/updateUserPasswd', {
+      params: {
+        loginName: encrypt(loginName),
+        origPwd: encrypt(origPwd),
+        newPwd: encrypt(newPwd)
       }
-    )
+    })
     .then(response => {
-      console.log(response);
-      Notify.create({ type: 'positive', message: '密码修改成功，请重新登录' });
-      logout();
+      if (response) {
+        Notify.create({ type: 'positive', message: '密码修改成功，请重新登录' });
+        logout();
+      }
     })
     .finally(() => {
       store.commit('loading', false);
